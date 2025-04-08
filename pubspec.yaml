@@ -1,11 +1,11 @@
-name: json_editor_flutter
+name: json_editor_flutter_plus
 description: Edit your JSON object with the help of this package. Create and delete objects using this user friendly widget.
 version: 1.4.2
-repository: https://github.com/SanjaySodani/json_editor_flutter
-issue_tracker: https://github.com/SanjaySodani/json_editor_flutter/issues
+repository: https://github.com/marwan-alhomdy/json_editor_flutter_plus
+issue_tracker: https://github.com/marwan-alhomdy/json_editor_flutter_plus/issues
 
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: ">=2.17.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

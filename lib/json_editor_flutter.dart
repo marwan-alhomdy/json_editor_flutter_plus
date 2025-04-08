@@ -1,7 +1,7 @@
-library json_editor_flutter;
+library json_editor_flutter_plus;
 
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -1042,7 +1042,7 @@ class _ReplaceTextWithFieldState extends State<_ReplaceTextWithField> {
             });
             _focusNode.requestFocus();
           },
-          mouseCursor: MaterialStateMouseCursor.textable,
+          mouseCursor: WidgetStateMouseCursor.textable,
           child: widget.initialValue is String && _text.isEmpty
               ? const SizedBox(width: 200, height: 18)
               : wrapWithColoredBox(_text),
