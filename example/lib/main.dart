@@ -36,19 +36,16 @@ class JsonEditorExample extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(0),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: JsonEditor(
-            onChanged: (value) => {},
-            themeColor: Colors.orange,
-            hideEditorsMenuButton: false,
-            enableHorizontalScroll: true,
-            editors: const [Editors.text, Editors.tree],
-            json: jsonEncode(json),
-            onSave: (value) {
-              log(value.toString());
-            },
-          ),
+        child: JsonEditor(
+          onChanged: (value) => {},
+          themeColor: Colors.orange,
+          hideEditorsMenuButton: false,
+          enableHorizontalScroll: true,
+          editors: const [Editors.text, Editors.tree],
+          json: jsonEncode(json),
+          onSave: (value) {
+            log(value.toString());
+          },
         ),
       ),
     );

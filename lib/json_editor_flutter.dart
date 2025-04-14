@@ -166,65 +166,68 @@ class _JsonEditorState extends State<JsonEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: jsonManager.onError ? 2 : 1,
-          color: jsonManager.onError ? Colors.red : Colors.transparent,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: jsonManager.onError ? 2 : 1,
+            color: jsonManager.onError ? Colors.red : Colors.transparent,
+          ),
         ),
-      ),
-      child: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HeaderEditorWidget(
-                actions: widget.actions,
-                jsonManager: jsonManager,
-                hideEditorsMenuButton: widget.hideEditorsMenuButton,
-                onSave: widget.onSave,
-                searchWidget: SearchFieldWidget(
-                    onChanged: jsonManager.onSearch,
-                    onAction: jsonManager.onSearchAction),
-                onChangedEditor: (value) {
-                  if (value == Editors.text) {
+        child: SizedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HeaderEditorWidget(
+                  actions: widget.actions,
+                  jsonManager: jsonManager,
+                  hideEditorsMenuButton: widget.hideEditorsMenuButton,
+                  onSave: widget.onSave,
+                  searchWidget: SearchFieldWidget(
+                      onChanged: jsonManager.onSearch,
+                      onAction: jsonManager.onSearchAction),
+                  onChangedEditor: (value) {
+                    if (value == Editors.text) {
+                      jsonManager.controller.text =
+                          jsonManager.stringifyData(jsonManager.data, 0, true);
+                    }
+                    setState(() {
+                      jsonManager.editor = value;
+                    });
+                  },
+                  onExpandAll: () {
+                    jsonManager.expandedObjects[["object"].toString()] = true;
+                    jsonManager.expandAllObjects(jsonManager.data, ["object"]);
+                    setState(() {});
+                  },
+                  onCollapseAll: () {
+                    jsonManager.expandedObjects.clear();
+                    setState(() {});
+                  },
+                  onFormat: () {
                     jsonManager.controller.text =
                         jsonManager.stringifyData(jsonManager.data, 0, true);
-                  }
-                  setState(() {
-                    jsonManager.editor = value;
-                  });
-                },
-                onExpandAll: () {
-                  jsonManager.expandedObjects[["object"].toString()] = true;
-                  jsonManager.expandAllObjects(jsonManager.data, ["object"]);
-                  setState(() {});
-                },
-                onCollapseAll: () {
-                  jsonManager.expandedObjects.clear();
-                  setState(() {});
-                },
-                onFormat: () {
-                  jsonManager.controller.text =
-                      jsonManager.stringifyData(jsonManager.data, 0, true);
-                }),
-            if (jsonManager.onError) const SyntaxErrorWidget(),
-            if (jsonManager.editor == Editors.tree)
-              Expanded(
-                child: TreeEditorsWidget(
-                  jsonManager: jsonManager,
-                  enableHorizontalScroll: widget.enableHorizontalScroll,
-                  enableMoreOptions: _enableMoreOptions,
-                  enableKeyEdit: _enableKeyEdit,
-                  enableValueEdit: _enableValueEdit,
+                  }),
+              if (jsonManager.onError) const SyntaxErrorWidget(),
+              if (jsonManager.editor == Editors.tree)
+                Expanded(
+                  child: TreeEditorsWidget(
+                    jsonManager: jsonManager,
+                    enableHorizontalScroll: widget.enableHorizontalScroll,
+                    enableMoreOptions: _enableMoreOptions,
+                    enableKeyEdit: _enableKeyEdit,
+                    enableValueEdit: _enableValueEdit,
+                  ),
                 ),
-              ),
-            if (jsonManager.editor == Editors.text)
-              Expanded(
-                  child: TextEditorsWidget(
-                controller: jsonManager.controller,
-                onChanged: jsonManager.parseData,
-              )),
-          ],
+              if (jsonManager.editor == Editors.text)
+                Expanded(
+                    child: TextEditorsWidget(
+                  controller: jsonManager.controller,
+                  onChanged: jsonManager.parseData,
+                )),
+            ],
+          ),
         ),
       ),
     );
