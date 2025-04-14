@@ -25,7 +25,7 @@ class SearchFieldWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           const SizedBox(width: 5),
-          const Icon(CupertinoIcons.search, size: 20),
+          const Icon(CupertinoIcons.search, color: Colors.black, size: 20),
           const SizedBox(width: 5),
           Expanded(
             child: TextField(
@@ -56,6 +56,7 @@ class SearchFieldWidget extends StatelessWidget {
                 onPressed: () => onAction(SearchActions.next),
                 tooltip: 'Next',
                 iconSize: 15,
+                color: Colors.black,
                 constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
                 icon: const Icon(CupertinoIcons.arrowtriangle_down_fill),
               )),
@@ -66,6 +67,7 @@ class SearchFieldWidget extends StatelessWidget {
                 onPressed: () => onAction(SearchActions.prev),
                 tooltip: 'Previous',
                 iconSize: 15,
+                color: Colors.black,
                 constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
                 icon: const Icon(CupertinoIcons.arrowtriangle_up_fill),
               )),

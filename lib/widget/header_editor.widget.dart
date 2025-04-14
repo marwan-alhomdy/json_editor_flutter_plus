@@ -18,7 +18,8 @@ class HeaderEditorWidget extends StatelessWidget {
       required this.onExpandAll,
       required this.onCollapseAll,
       required this.onFormat,
-      required this.onSave});
+      required this.onSave,
+      this.foregroundColor});
 
   final Widget searchWidget;
 
@@ -34,6 +35,8 @@ class HeaderEditorWidget extends StatelessWidget {
   final VoidCallback onFormat;
 
   final Function(Object?) onSave;
+
+  final Color? foregroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,10 @@ class HeaderEditorWidget extends StatelessWidget {
                 children: [
                   Expanded(child: searchWidget),
                   if (jsonManager.results != null)
-                    Text("${jsonManager.results} results"),
+                    Text(
+                      "${jsonManager.results} results",
+                      style: TextStyle(color: foregroundColor),
+                    ),
                 ],
               ),
             Row(
@@ -88,8 +94,12 @@ class HeaderEditorWidget extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(jsonManager.editor.name, style: textStyle),
-                        const Icon(Icons.arrow_drop_down, size: 20),
+                        Text(jsonManager.editor.name,
+                            style: textStyle.copyWith(
+                              color: foregroundColor,
+                            )),
+                        Icon(Icons.arrow_drop_down,
+                            color: foregroundColor, size: 20),
                       ],
                     ),
                   ),
@@ -99,6 +109,7 @@ class HeaderEditorWidget extends StatelessWidget {
                     onPressed: onFormat,
                     iconSize: 20,
                     tooltip: 'Format',
+                    color: foregroundColor,
                     icon: const Icon(Icons.format_align_left),
                   ),
                 ] else ...[
@@ -106,12 +117,14 @@ class HeaderEditorWidget extends StatelessWidget {
                     onPressed: onExpandAll,
                     iconSize: 20,
                     tooltip: 'Expand All',
+                    color: foregroundColor,
                     icon: const Icon(Icons.expand),
                   ),
                   IconButton(
                     onPressed: onCollapseAll,
                     iconSize: 20,
                     tooltip: 'Collapse All',
+                    color: foregroundColor,
                     icon: const Icon(Icons.compress),
                   ),
                 ],
@@ -119,12 +132,14 @@ class HeaderEditorWidget extends StatelessWidget {
                   onPressed: copyData,
                   iconSize: 20,
                   tooltip: 'Copy',
+                  color: foregroundColor,
                   icon: const Icon(Icons.copy),
                 ),
                 IconButton(
                   onPressed: () => onSave(jsonManager.data),
                   iconSize: 20,
                   tooltip: 'Save',
+                  color: foregroundColor,
                   icon: const Icon(Icons.save),
                 ),
                 ...actions,

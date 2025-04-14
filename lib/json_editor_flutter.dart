@@ -42,6 +42,7 @@ class JsonEditor extends StatefulWidget {
     this.enableValueEdit = true,
     this.editors = const [Editors.tree, Editors.text],
     this.themeColor,
+    this.foregroundColor,
     this.actions = const [],
     this.enableHorizontalScroll = false,
     this.searchDuration = const Duration(milliseconds: 500),
@@ -70,6 +71,9 @@ class JsonEditor extends StatefulWidget {
 
   /// Theme color for the editor. Changes the border color and header color.
   final Color? themeColor;
+
+  /// Foreground color for the editor. Changes the color of the text.
+  final Color? foregroundColor;
 
   /// List of supported editors. First element will be used as default editor.
   final List<Editors> editors;
@@ -180,6 +184,7 @@ class _JsonEditorState extends State<JsonEditor> {
               HeaderEditorWidget(
                   actions: widget.actions,
                   jsonManager: jsonManager,
+                  foregroundColor: widget.foregroundColor,
                   hideEditorsMenuButton: widget.hideEditorsMenuButton,
                   onSave: widget.onSave,
                   searchWidget: SearchFieldWidget(
