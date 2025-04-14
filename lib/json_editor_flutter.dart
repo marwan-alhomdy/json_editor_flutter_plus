@@ -139,7 +139,10 @@ class _JsonEditorState extends State<JsonEditor> {
     _enableMoreOptions = widget.enableMoreOptions;
     _enableKeyEdit = widget.enableKeyEdit;
     _enableValueEdit = widget.enableValueEdit;
+  }
 
+  @override
+  void didChangeDependencies() {
     jsonManager = JsonManager(
       context,
       themeColor: widget.themeColor,
@@ -151,6 +154,7 @@ class _JsonEditorState extends State<JsonEditor> {
       setState: setState,
       expandedObjects: widget.expandedObjects,
     );
+    super.didChangeDependencies();
   }
 
   @override
