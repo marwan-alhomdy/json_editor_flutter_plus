@@ -16,8 +16,11 @@ class SearchFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.grey.shade50,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -46,20 +49,26 @@ class SearchFieldWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 5),
-          IconButton(
-            onPressed: () => onAction(SearchActions.next),
-            tooltip: 'Next',
-            iconSize: 15,
-            constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
-            icon: const Icon(CupertinoIcons.arrowtriangle_down_fill),
-          ),
-          IconButton(
-            onPressed: () => onAction(SearchActions.prev),
-            tooltip: 'Previous',
-            iconSize: 15,
-            constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
-            icon: const Icon(CupertinoIcons.arrowtriangle_up_fill),
-          ),
+          SizedBox(
+              height: 40.0,
+              width: 35.0,
+              child: IconButton(
+                onPressed: () => onAction(SearchActions.next),
+                tooltip: 'Next',
+                iconSize: 15,
+                constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
+                icon: const Icon(CupertinoIcons.arrowtriangle_down_fill),
+              )),
+          SizedBox(
+              height: 40.0,
+              width: 35.0,
+              child: IconButton(
+                onPressed: () => onAction(SearchActions.prev),
+                tooltip: 'Previous',
+                iconSize: 15,
+                constraints: const BoxConstraints(maxHeight: 30, maxWidth: 30),
+                icon: const Icon(CupertinoIcons.arrowtriangle_up_fill),
+              )),
           const SizedBox(width: 5),
         ],
       ),
