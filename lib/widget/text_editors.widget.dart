@@ -11,6 +11,7 @@ class TextEditorsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      scrollPhysics: const ClampingScrollPhysics(),
       controller: controller,
       onChanged: onChanged,
       maxLines: null,

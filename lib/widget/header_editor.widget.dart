@@ -17,7 +17,8 @@ class HeaderEditorWidget extends StatelessWidget {
       required this.onChangedEditor,
       required this.onExpandAll,
       required this.onCollapseAll,
-      required this.onFormat});
+      required this.onFormat,
+      required this.onSave});
 
   final Widget searchWidget;
 
@@ -32,6 +33,8 @@ class HeaderEditorWidget extends StatelessWidget {
   final VoidCallback onCollapseAll;
   final VoidCallback onFormat;
 
+  final Function(Object?) onSave;
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -43,94 +46,90 @@ class HeaderEditorWidget extends StatelessWidget {
                 )
               : null),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 6,
-          horizontal: 10,
-        ),
-        child: Row(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+        child: Column(
           children: [
-            if (!hideEditorsMenuButton)
-              PopupMenuButton<Editors>(
-                initialValue: jsonManager.editor,
-                tooltip: 'Change editor',
-                padding: EdgeInsets.zero,
-                onSelected: onChangedEditor,
-                position: PopupMenuPosition.under,
-                enabled: jsonManager.editors.length > 1,
-                constraints: const BoxConstraints(
-                  minWidth: 50,
-                  maxWidth: 150,
-                ),
-                itemBuilder: (context) {
-                  return <PopupMenuEntry<Editors>>[
-                    PopupMenuItem<Editors>(
-                      height: popupMenuHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      enabled: jsonManager.editors.contains(Editors.tree),
-                      value: Editors.tree,
-                      child: const Text("Tree"),
-                    ),
-                    PopupMenuItem<Editors>(
-                      height: popupMenuHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      enabled: jsonManager.editors.contains(Editors.text),
-                      value: Editors.text,
-                      child: const Text("Text"),
-                    ),
-                  ];
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(jsonManager.editor.name, style: textStyle),
-                    const Icon(Icons.arrow_drop_down, size: 20),
-                  ],
-                ),
+            if (jsonManager.editor == Editors.tree)
+              Row(
+                spacing: 10,
+                children: [
+                  Expanded(child: searchWidget),
+                  if (jsonManager.results != null)
+                    Text("${jsonManager.results} results"),
+                ],
               ),
-            const Spacer(),
-            if (jsonManager.editor == Editors.text) ...[
-              const SizedBox(width: 20),
-              InkWell(
-                onTap: onFormat,
-                child: const Tooltip(
-                  message: 'Format',
-                  child: Icon(Icons.format_align_left, size: 20),
+            Row(
+              children: [
+                if (!hideEditorsMenuButton)
+                  PopupMenuButton<Editors>(
+                    initialValue: jsonManager.editor,
+                    tooltip: 'Change editor',
+                    padding: EdgeInsets.zero,
+                    onSelected: onChangedEditor,
+                    position: PopupMenuPosition.under,
+                    enabled: jsonManager.editors.length > 1,
+                    constraints: const BoxConstraints(
+                      minWidth: 50,
+                      maxWidth: 150,
+                    ),
+                    itemBuilder: (context) {
+                      return List.generate(
+                        jsonManager.editors.length,
+                        (index) => PopupMenuItem<Editors>(
+                          height: popupMenuHeight,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          enabled: jsonManager.editors
+                              .contains(jsonManager.editors[index]),
+                          value: jsonManager.editors[index],
+                          child: Text(jsonManager.editors[index].name),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(jsonManager.editor.name, style: textStyle),
+                        const Icon(Icons.arrow_drop_down, size: 20),
+                      ],
+                    ),
+                  ),
+                const Spacer(),
+                if (jsonManager.editor == Editors.text) ...[
+                  IconButton(
+                    onPressed: onFormat,
+                    iconSize: 20,
+                    tooltip: 'Format',
+                    icon: const Icon(Icons.format_align_left),
+                  ),
+                ] else ...[
+                  IconButton(
+                    onPressed: onExpandAll,
+                    iconSize: 20,
+                    tooltip: 'Expand All',
+                    icon: const Icon(Icons.expand),
+                  ),
+                  IconButton(
+                    onPressed: onCollapseAll,
+                    iconSize: 20,
+                    tooltip: 'Collapse All',
+                    icon: const Icon(Icons.compress),
+                  ),
+                ],
+                IconButton(
+                  onPressed: copyData,
+                  iconSize: 20,
+                  tooltip: 'Copy',
+                  icon: const Icon(Icons.copy),
                 ),
-              ),
-            ] else ...[
-              const SizedBox(width: 20),
-              if (jsonManager.results != null) ...[
-                Text("${jsonManager.results} results"),
-                const SizedBox(width: 5),
+                IconButton(
+                  onPressed: () => onSave(jsonManager.data),
+                  iconSize: 20,
+                  tooltip: 'Save',
+                  icon: const Icon(Icons.save),
+                ),
+                ...actions,
               ],
-              searchWidget,
-              const SizedBox(width: 20),
-              InkWell(
-                onTap: onExpandAll,
-                child: const Tooltip(
-                  message: 'Expand All',
-                  child: Icon(Icons.expand, size: 20),
-                ),
-              ),
-              const SizedBox(width: 20),
-              InkWell(
-                onTap: onCollapseAll,
-                child: const Tooltip(
-                  message: 'Collapse All',
-                  child: Icon(Icons.compress, size: 20),
-                ),
-              ),
-            ],
-            const SizedBox(width: 20),
-            InkWell(
-              onTap: copyData,
-              child: const Tooltip(
-                message: 'Copy',
-                child: Icon(Icons.copy, size: 20),
-              ),
             ),
-            if (actions.isNotEmpty) const SizedBox(width: 20),
-            ...actions,
           ],
         ),
       ),

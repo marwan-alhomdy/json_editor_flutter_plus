@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:json_editor_flutter_plus/constants/enum.dart';
 import 'package:json_editor_flutter_plus/json_editor_flutter.dart';
 
 void main() {
@@ -26,7 +28,11 @@ class JsonEditorExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: const Text('JSON Editor Example'),
+        automaticallyImplyLeading: false,
+        scrolledUnderElevation: 0,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(0),
@@ -35,7 +41,11 @@ class JsonEditorExample extends StatelessWidget {
           themeColor: Colors.orange,
           hideEditorsMenuButton: false,
           enableHorizontalScroll: true,
+          editors: const [Editors.text, Editors.tree],
           json: jsonEncode(json),
+          onSave: (value) {
+            log(value.toString());
+          },
         ),
       ),
     );
