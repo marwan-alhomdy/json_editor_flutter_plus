@@ -1,5 +1,3 @@
-library json_editor_flutter_plus;
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
